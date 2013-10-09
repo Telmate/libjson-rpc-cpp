@@ -16,7 +16,7 @@
 
 namespace jsonrpc
 {
-    
+
     class HttpClient : public AbstractClientConnector
     {
         public:
@@ -26,6 +26,12 @@ namespace jsonrpc
             virtual void SendMessage(const std::string& message, std::string& result) throw (JsonRpcException);
 
             void SetUrl(const std::string& url);
+
+            void SetConnectionTimeout(long timeout_secs);
+
+            void SetTransferTimeout(long timeout_secs);
+
+            void SetHttpsInsecure();
 
         private:
             std::string url;

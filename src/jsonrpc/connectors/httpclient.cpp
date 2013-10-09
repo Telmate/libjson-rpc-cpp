@@ -59,7 +59,7 @@ namespace jsonrpc
         }
         s->ptr[0] = '\0';
     }
-    
+
     HttpClient::HttpClient(const std::string& url) throw(JsonRpcException)
         : AbstractClientConnector(), url(url)
     {
@@ -72,7 +72,7 @@ namespace jsonrpc
         curl_easy_setopt(curl, CURLOPT_URL, this->url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
     }
-    
+
     HttpClient::~HttpClient()
     {
         if (curl)
@@ -122,6 +122,23 @@ namespace jsonrpc
     {
         this->url = url;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+
+
+    void HttpClient::SetConnectionTimeout(long timeout_secs)
+    {
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout_secs);
+    }
+
+    void HttpClient::SetTransferTimeout(long timeout_secs)
+    {
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout_secs);
+    }
+
+    void HttpClient::SetHttpsInsecure()
+    {
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     }
 
 } /* namespace jsonrpc */
