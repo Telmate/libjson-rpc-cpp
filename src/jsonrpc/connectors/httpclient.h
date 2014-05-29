@@ -32,6 +32,8 @@ namespace jsonrpc
             void SetTransferTimeout(long timeout_secs);
 
             void SetHttpsInsecure();
+            
+            void SetVerbose();
 
         private:
             std::string url;
