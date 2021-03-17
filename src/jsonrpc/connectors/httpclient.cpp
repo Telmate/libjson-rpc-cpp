@@ -69,6 +69,13 @@ namespace jsonrpc
             throw JsonRpcException(Errors::ERROR_CLIENT_CONNECTOR, ": libcurl initialization error");
         }
 
+        // When using curl-NSS, need to set to NULL because we don't
+        // have the PEM reader on 16.04. SSL_DIR is set to an NSS store
+        // with the root CAs in it.
+        if (std::getenv("SSL_DIR"))
+        {
+            curl_easy_setopt(curl, CURLOPT_CAINFO, NULL);
+        }
         curl_easy_setopt(curl, CURLOPT_URL, this->url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
     }
