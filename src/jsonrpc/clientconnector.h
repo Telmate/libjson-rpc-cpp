@@ -27,6 +27,7 @@ namespace jsonrpc
             virtual std::string SendMessage(const std::string& message) throw(JsonRpcException);
 
             virtual void SendMessage(const std::string& message, std::string& result) throw(JsonRpcException) = 0;
+            virtual void SendMessage(const std::string& message, std::string& result, char *additional_headers[], int num_headers) throw(JsonRpcException) = 0;
     };
 } /* namespace jsonrpc */
 #endif /* CLIENTCONNECTOR_H_ */

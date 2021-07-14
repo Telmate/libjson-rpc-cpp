@@ -28,6 +28,7 @@ namespace jsonrpc
 
             void CallMethod(const std::string &name, const Json::Value &paramter, Json::Value& result) throw (JsonRpcException);
             Json::Value CallMethod(const std::string& name, const Json::Value& paramter) throw (JsonRpcException);
+            Json::Value CallMethod(const std::string& name, const Json::Value& paramter, char *additional_headers[], int num_headers) throw (JsonRpcException);
             void CallNotification(const std::string& name, const Json::Value& paramter) throw (JsonRpcException);
 
         private:
