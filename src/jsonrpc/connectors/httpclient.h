@@ -25,6 +25,8 @@ namespace jsonrpc
 
             virtual void SendMessage(const std::string& message, std::string& result) throw (JsonRpcException);
 
+            virtual void SendMessage(const std::string& message, std::string& result, char *additional_headers[], int num_headers) throw (JsonRpcException);
+
             void SetUrl(const std::string& url);
 
             void SetConnectionTimeout(long timeout_secs);

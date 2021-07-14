@@ -90,6 +90,12 @@ namespace jsonrpc
 
     void HttpClient::SendMessage(const std::string& message, std::string& result) throw (JsonRpcException)
     {
+        char *additional_headers[0];
+        SendMessage(message, result, additional_headers, 0);
+    }
+
+    void HttpClient::SendMessage(const std::string& message, std::string& result, char *additional_headers[], int num_headers) throw (JsonRpcException)
+    {
         CURLcode res;
 
         struct string s;
@@ -100,6 +106,10 @@ namespace jsonrpc
         //headers = curl_slist_append(headers, "Accept: application/json");
         headers = curl_slist_append(headers, "Content-Type: application/json");
         headers = curl_slist_append(headers, "charsets: utf-8");
+
+        for (int i = 0; i < num_headers; i++) {
+            headers = curl_slist_append(headers, additional_headers[i]);
+        }
 
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, message.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &s);

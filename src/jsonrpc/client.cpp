@@ -24,12 +24,10 @@ namespace jsonrpc
         delete this->connector;
     }
 
-    void Client::CallMethod(const std::string &name, const Json::Value &paramter, Json::Value& result) throw(JsonRpcException)
+    void Client::CallMethod(const std::string &name, const Json::Value &parameter, Json::Value& result) throw(JsonRpcException)
     {
-        std::string request, response;
-        protocol.BuildRequest(name, paramter, request, false);
-        connector->SendMessage(request, response);
-        protocol.HandleResponse(response, result);
+        char *additional_headers[0];
+        result = CallMethod(name, parameter, additional_headers, 0);
     }
     
     Json::Value Client::CallMethod(const std::string& name,
@@ -37,6 +35,19 @@ namespace jsonrpc
     {
         Json::Value result;
         this->CallMethod(name, parameter, result);
+        return result;
+    }
+
+    Json::Value Client::CallMethod(const std::string& name,
+                                   const Json::Value& parameter,
+                                   char *additional_headers[],
+                                   int num_headers) throw(JsonRpcException)
+    {
+        Json::Value result;
+        std::string request, response;
+        protocol.BuildRequest(name, parameter, request, false);
+        connector->SendMessage(request, response, additional_headers, num_headers);
+        protocol.HandleResponse(response, result);
         return result;
     }
     
